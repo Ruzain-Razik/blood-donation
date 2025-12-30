@@ -31,22 +31,25 @@ class HospitalAuthController extends Controller
                 'email'          => 'required|email|unique:hospitals,email',
                 'contact_person' => 'nullable|string|max:255',
                 'license_number' => 'nullable|string|max:255|unique:hospitals,license_number',
-                // 'password'       => 'required|string|min:6',
+                'password'       => 'nullable|string|min:6',
             ]);
-            if (!isset($validated['is_active'])) {
-                $validated['is_active'] = true; // Default to true if not provided
-            } else {
-                $validated['is_active'] = false;
-            }
+            
+            // Handle is_active checkbox
+            $validated['is_active'] = $request->has('is_active');
 
-            $validated['password'] = Hash::make($validated['password']);
+            // Hash password if provided
+            if (!empty($validated['password'])) {
+                $validated['password'] = Hash::make($validated['password']);
+            } else {
+                // Remove password from validated data if not provided
+                unset($validated['password']);
+            }
 
             Hospital::create($validated);
 
             return redirect()->route('blood-donations.create')->with('success', 'Hospital registered successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->withErrors(['error' => 'Registration failed: ' . $e->getMessage()]);
-            // return redirect()->back()->withErrors(['error' => 'Registration failed: ' . $e->getMessage()]);
         }
     }
 }

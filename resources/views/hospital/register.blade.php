@@ -118,7 +118,7 @@
             </div>
 
             <!-- Password -->
-            {{-- <div>
+            <div>
                 <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
                 <div
                     class="flex items-center border border-gray-300 rounded-md shadow-sm focus-within:ring-2 focus-within:ring-indigo-500">
@@ -129,7 +129,7 @@
                 @error('password')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
-            </div> --}}
+            </div>
 
             <!-- Is Active -->
             <div class="flex items-center">
